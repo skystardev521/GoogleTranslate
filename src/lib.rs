@@ -1,5 +1,5 @@
+use serde::{Deserialize, Serialize};
 use std::process;
-use serde::{Deserialize,Serialize};
 
 //翻译参数
 #[derive(Debug)]
@@ -10,14 +10,14 @@ pub struct TransArgs {
 
 impl TransArgs {
     fn new(to_lang: &str, src: &str) -> TransArgs {
-        TransArgs{
+        TransArgs {
             to_lang: String::from(to_lang),
             src: String::from(src),
         }
     }
     //从输入参数种生成翻译参数
-    pub fn from(args: Vec<String>) -> Option<TransArgs >{
-        if args.len() >= 3  {
+    pub fn from(args: Vec<String>) -> Option<TransArgs> {
+        if args.len() >= 3 {
             let to_lang = match args.get(1) {
                 Some(lang) => GLang::match_google_lang(lang),
                 None => {
@@ -25,14 +25,12 @@ impl TransArgs {
                     process::exit(1);
                 }
             };
-            let input_words:String = args[2..].join(" ");
+            let input_words: String = args[2..].join(" ");
             return Some(TransArgs::new(to_lang, input_words.as_str()));
         }
         return None;
     }
 }
-
-
 
 //谷歌翻译
 pub struct GoogleTrans;
@@ -44,15 +42,18 @@ impl GoogleTrans {
             trans_args.to_lang,
             trans_args.src
         );
-        reqwest::blocking::get(url).unwrap_or_else(|_|{
-            eprintln!("请求出现问题啦~");
-            process::exit(1);
-        }).json::<GoogleTransRes>().unwrap_or_else(|_|{
-            eprintln!("解析结果出现问题！");
-            process::exit(1);
-        }).display_res();
+        reqwest::blocking::get(url)
+            .unwrap_or_else(|_| {
+                eprintln!("请求出现问题啦~");
+                process::exit(1);
+            })
+            .json::<GoogleTransRes>()
+            .unwrap_or_else(|_| {
+                eprintln!("解析结果出现问题！");
+                process::exit(1);
+            })
+            .display_res();
     }
-
 }
 
 //谷歌翻译结果
@@ -73,7 +74,7 @@ struct GoogleTransRes {
 impl GoogleTransRes {
     //显示翻译结果
     fn display_res(&self) {
-        let first_sentence = self.sentences.get(0).unwrap_or_else(||process::exit(1));
+        let first_sentence = self.sentences.get(0).unwrap_or_else(|| process::exit(1));
         println!("{}", first_sentence.trans);
     }
 }
@@ -89,8 +90,7 @@ impl GLang {
             _ => {
                 eprintln!(
                     "输入的语种不支持。\n当前支持的语言：\n  -{}\n  -{}",
-                    "中文: zh",
-                    "英文: en"
+                    "中文: zh", "英文: en"
                 );
                 process::exit(0);
             }
