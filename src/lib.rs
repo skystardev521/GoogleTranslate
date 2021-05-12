@@ -15,6 +15,7 @@ impl TransArgs {
             src: String::from(src),
         }
     }
+    //从输入参数种生成翻译参数
     pub fn from(args: Vec<String>) -> Option<TransArgs >{
         if args.len() >= 3  {
             let to_lang = match args.get(1) {
@@ -70,6 +71,7 @@ struct GoogleTransRes {
 }
 
 impl GoogleTransRes {
+    //显示翻译结果
     fn display_res(&self) {
         let first_sentence = self.sentences.get(0).unwrap_or_else(||process::exit(1));
         println!("{}", first_sentence.trans);
@@ -79,6 +81,7 @@ impl GoogleTransRes {
 //当前支持的翻译语种
 struct GLang;
 impl GLang {
+    //匹配翻译结果语言
     fn match_google_lang(lang: &str) -> &str {
         match lang {
             "zh" => "zh_CN",
