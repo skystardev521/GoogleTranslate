@@ -6,4 +6,7 @@
 # ghuanye 目标语言 翻译内容
 ghuanye zh hello, world.
 你好， 世界。
+
+ghuanye en 你好，世界。
+Hello World.
 ```
