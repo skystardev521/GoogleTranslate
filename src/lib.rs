@@ -87,10 +87,23 @@ impl GLang {
         match lang {
             "zh" => "zh_CN",
             "en" => "en_US",
+            "fr" => "fr",
+            "de" => "de",
+            "ja" => "ja",
+            "ko" => "ko",
+            "pt" => "pt",
             _ => {
                 eprintln!(
-                    "输入的语种不支持。\n当前支持的语言：\n  -{}\n  -{}",
-                    "中文: zh", "英文: en"
+r"输入的语种不支持。
+当前支持的语言：
+    - 中文: zh
+    - 英文: en
+    - 法语: fr
+    - 德语: de
+    - 日语: ja
+    - 韩语: ko
+    - 葡萄牙语言: pt
+"
                 );
                 process::exit(0);
             }
